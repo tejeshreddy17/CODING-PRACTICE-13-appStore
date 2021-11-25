@@ -1,3 +1,11 @@
+import {Component} from 'react'
+
+import './index.css'
+
+import AppItem from '../AppItem'
+
+import TabItem from '../TabItem'
+
 const tabsList = [
   {tabId: 'SOCIAL', displayText: 'Social'},
   {tabId: 'GAMES', displayText: 'Games'},
@@ -288,3 +296,56 @@ const appsList = [
 ]
 
 // Write your code here
+
+class AppStore extends Component {
+  state = {searchInput: '', activeTab: 'SOCIAL'}
+
+  onSearch = event => {
+    this.setState({searchInput: event.target.value})
+  }
+
+  onChangingTab = tabId => {
+    console.log(tabId)
+    this.setState({activeTab: tabId})
+  }
+
+  render() {
+    const {activeTab, searchInput} = this.state
+    const selectedApps = appsList.filter(
+      eachapp => eachapp.category === activeTab,
+    )
+    const searchedApps = selectedApps.filter(eachapp =>
+      eachapp.appName.toLowerCase().includes(searchInput.toLowerCase()),
+    )
+
+    return (
+      <div className="background-style">
+        <h1 className="heading-style">App Store</h1>
+        <div className="input-box-style">
+          <input onChange={this.onSearch} placeholder="search" type="search" />
+          <img
+            className="search-icon-style"
+            alt="search icon"
+            src="https://assets.ccbp.in/frontend/react-js/app-store/app-store-search-img.png"
+          />
+        </div>
+        <ul className="tabs-container">
+          {tabsList.map(eachtab => (
+            <TabItem
+              onChangingTab={this.onChangingTab}
+              tab={eachtab}
+              key={eachtab.tabId}
+              isSelected={eachtab.tabId === activeTab}
+            />
+          ))}
+        </ul>
+        <ul className="apps-container">
+          {searchedApps.map(eachapp => (
+            <AppItem app={eachapp} key={eachapp.appId} />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+}
+export default AppStore
