@@ -12,10 +12,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 150px;
+  height: 160px;
   width: 150px;
 }
 .image-style {
   height: 80px;
   width: 80px;
+}
+p {
+  text-align: center;
+  flex-grow: 1;
+  font-size: 14px;
 }
